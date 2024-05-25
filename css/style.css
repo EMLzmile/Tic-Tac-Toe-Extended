@@ -1,0 +1,449 @@
+@import url('base.css');
+
+.container {
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(45deg, var(--violet-dark), var(--violet));
+}
+
+.container>* {
+    width: 100%;
+    background: var(--black-44);
+    color: var(--cyan);
+    padding: 20px;
+    text-align: center;
+}
+
+.container>nav {
+    z-index: 2;
+    position: absolute;
+    top: -100%;
+    height: 100%;
+    background: var(--black-88);
+    font-size: 24px;
+    font-weight: 700;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-right ul {
+    flex-flow: column wrap;
+    justify-content: space-around;
+    height: 60%;
+    /* background: #333; */
+    color: var(--cyan);
+    padding: 20px;
+}
+
+.nav-right-appear{
+    -webkit-transform: translateY(100%);
+    -moz-transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    -o-transform: translateY(100%);
+    transform: translateY(100%);
+    overflow: hidden;
+}
+.container>header {
+    position: relative;
+    top: calc(-200px);
+    padding: 10px;
+    border-bottom: 2px solid var(--cyan);
+    transition: all 3.6s ease-in-out;
+}
+.header-appear{
+    -webkit-transform: translateY(200px);
+    -moz-transform: translateY(200px);
+    -ms-transform: translateY(200px);
+    -o-transform: translateY(200px);
+    transform: translateY(200px);
+}
+
+.title-game {
+    font-size: 14px;
+}
+
+.title-game h1 {
+    font-size: 28px;
+}
+
+#toggle-menu {
+    padding: 10px;
+}
+
+#toggle-menu img {
+    width: 24px;
+}
+
+.tictac-app,
+.tictac-home {
+    width: calc(100% - 10px);
+    max-width: 600px;
+    background: var(--violet-dark);
+    margin: 20px auto;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.tictac-app>* {
+    width: 100%;
+}
+.tictac-app header{
+    line-height: 24px;
+}
+.player-mark, .stat-number {
+    display: block;
+    font-size: 1.3em;
+}
+.player-mark{
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 52px;
+    height: 32px;
+    background: var(--black);
+    border-radius: 32px;
+    transition: all 0.5s;
+}
+.player-mark span{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 2px;
+    width: 28px;
+    height: 28px;
+    background: var(--cyan);
+    color: var(--black);
+    border-radius: 50%;
+    transition: all 0.5s;
+}
+
+.player-mark.current-player1 span{
+    left: 20px;
+}
+.current-player0 span::after{
+    content: 'O';
+}
+.current-player1 span::after{
+    content: 'X';
+}
+#board {
+    display: grid;
+    grid-template: repeat(10, 1fr)/repeat(10, 1fr);
+    height: 250px;
+    margin: 30px auto;
+}
+
+#board .case {
+    border: 1px solid var(--cyan-dark);
+}
+
+.case::after {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    color: var(--cyan);
+    align-items: center;
+    justify-content: center;
+}
+
+.cross::after {
+    content: "X";
+}
+
+.rond::after {
+    content: "O";
+}
+
+.case.winning::after {
+    background: var(--black-44);
+    color: var(--green);
+}
+.player-mark.winning{
+    width: 32px;
+}
+.player-mark.winning span{
+    left: 2px;
+    background: var(--green);
+}
+.stats {
+    padding: 10px;
+    background: var(--black-44);
+    border-radius: 10px;
+}
+
+.stat-number#win {
+    color: var(--green);
+}
+
+.stat-number#lose {
+    color: var(--gray);
+}
+.stat-number#lie{
+    color: var(--violet);
+}
+#home {
+    flex: 1;
+    width: 100%;
+    background:
+        radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+        radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+        linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+        linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    padding: 0;
+    transition: all 0.2s;
+    -webkit-animation: blink 4s linear infinite;
+    -o-animation: blink 4s linear infinite;
+    animation: blink 4s linear infinite;
+    /* overflow: hidden; */
+}
+
+@keyframes blink {
+    from {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    10% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 38.5%, var(--cyan-dark) 42.75%, var(--gray) 47%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    15% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    20% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 72%, var(--cyan-dark) 75%, var(--gray) 78%);
+    }
+
+    25% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 38.5%, var(--cyan-dark) 42.75%, var(--gray) 47%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    30% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 72%, var(--cyan-dark) 75%, var(--gray) 78%);
+    }
+
+    35% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    40% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 38.5%, var(--cyan-dark) 42.75%, var(--gray) 47%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 72%, var(--cyan-dark) 75%, var(--gray) 78%);
+    }
+
+    45% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    50% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    55% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 72%, var(--cyan-dark) 75%, var(--gray) 78%);
+    }
+
+    60% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 38.5%, var(--cyan-dark) 42.75%, var(--gray) 47%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    65% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    70% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 72%, var(--cyan-dark) 75%, var(--gray) 78%);
+    }
+
+    75% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 38.5%, var(--cyan-dark) 42.75%, var(--gray) 47%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 72%, var(--cyan-dark) 75%, var(--gray) 78%);
+    }
+
+    80% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 38.5%, var(--cyan-dark) 42.75%, var(--gray) 47%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    85% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 38.5%, var(--cyan-dark) 42.75%, var(--gray) 47%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 72%, var(--cyan-dark) 75%, var(--gray) 78%);
+    }
+
+    90% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+
+    95% {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 38.5%, var(--cyan-dark) 42.75%, transparent 47%),
+            radial-gradient(150px at 75% 25%, transparent 38.5%, var(--cyan-dark) 42.75%, var(--gray) 47%),
+            linear-gradient(135deg, transparent 44%, var(--cyan-dark) 47%, transparent 50%),
+            linear-gradient(45deg, var(--gray) 72%, var(--cyan-dark) 75%, var(--gray) 78%);
+    }
+
+    to {
+        background:
+            radial-gradient(150px at 25% 75%, var(--gray) 40.5%, var(--cyan-dark) 42.75%, transparent 45%),
+            radial-gradient(150px at 75% 25%, transparent 40.5%, var(--cyan-dark) 42.75%, var(--gray) 45%),
+            linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
+            linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
+    }
+}
+
+#home .btns-container {
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+}
+
+.btns-container .btn-item {
+    min-width: 50%;
+    width: 200px;
+    max-width: 90%;
+    background: var(--violet-dark);
+    color: var(--cyan);
+    padding: 10px 30px;
+    margin: 10px;
+    border: 0;
+    outline: none;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 10px;
+    border-bottom: 5px solid var(--black-88);
+    border-right: 5px solid var(--black-44);
+}
+
+.btns-container .btn-item:active {
+    border: 0;
+    margin: 15px 10px 10px 15px;
+}
+
+.container>footer {
+    background: var(--black-44);
+    color: var(--cyan);
+    padding: 20px;
+    border-top: 2px solid var(--cyan);
+    text-align: center;
+}
+
+.container>footer p {
+    line-height: 24px;
+}
+
+.container>footer p span {
+    display: block;
+    font-weight: 700;
+}
+
+.social {
+    background: var(--violet-dark);
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.social {
+    flex: 1 0 0;
+}
+
+.social a {
+    text-decoration: none;
+    color: var(--cyan);
+}
+
+.invisible {
+    display: none;
+}
+
+.recent {
+    filter: drop-shadow(0px 0px 4px white);
+}
+.game-appear{
+    opacity: 0;
+    -webkit-animation: gameAppear 0.5s ease-in-out forwards;
+    -o-animation: gameAppear 0.5s ease-in-out forwards;
+    animation: gameAppear 0.5s ease-in-out forwards;
+}
+@keyframes gameAppear{
+    from{
+        opacity: 0;
+        scale: 3;
+    }
+    to{
+        opacity: 1;
+        scale: 1;
+    }
+}
+ 
