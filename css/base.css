@@ -1,0 +1,57 @@
+:root {
+    --cyan: #00F2Fe;
+    --cyan-dark: #4FACFE;
+    --cyan-light: #88F2FE;
+    --black: #000;
+    --black-44: #0004;
+    --black-88: #0008;
+    --gray: #a3181c;
+    --gray-44: #8004;
+    --gray-88: #8008;
+    --gray-dark: #c38524;
+    --gray-dark-44: #44559344;
+    --gray-dark-88: #44559388;
+    --violet: #881E88;
+    --violet-dark: #330433;
+    --violet-light: #cc74cc;
+    --green: #08D900;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-size: 16px;
+}
+
+ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.flex-center,
+.flex-between,
+.flex-around,
+.flex-column-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.flex-between {
+    justify-content: space-between;
+}
+
+.flex-around {
+    justify-content: space-around;
+}
+.flex-column-wrap{
+    flex-flow: wrap column;
+}
