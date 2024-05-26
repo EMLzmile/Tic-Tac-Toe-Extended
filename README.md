@@ -1,2 +1,3 @@
 # Tic-Tac-Toe-Extended
-Ye version plus grande du jeu Tic Tac Toe 
+Une version plus grande du jeu Tic Tac Toe 
+avec une surface jeu de 10x10
