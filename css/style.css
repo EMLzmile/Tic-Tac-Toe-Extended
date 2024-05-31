@@ -44,19 +44,19 @@
     transform: translateY(100%);
     overflow: hidden;
 }
+
 .container>header {
+  z-index: 3;
     position: relative;
-    top: calc(-200px);
+    transform: translateY(-100%);
     padding: 10px;
     border-bottom: 2px solid var(--cyan);
     transition: all 3.6s ease-in-out;
 }
+
 .header-appear{
-    -webkit-transform: translateY(200px);
-    -moz-transform: translateY(200px);
-    -ms-transform: translateY(200px);
-    -o-transform: translateY(200px);
-    transform: translateY(200px);
+    transform: translateY(0%) !important;
+    transition: all 0.6s ease-in-out;
 }
 
 .title-game {
@@ -128,6 +128,7 @@
 .current-player1 span::after{
     content: 'X';
 }
+
 #board {
     display: grid;
     grid-template: repeat(10, 1fr)/repeat(10, 1fr);
@@ -138,7 +139,6 @@
 #board .case {
     border: 1px solid var(--cyan-dark);
 }
-
 .case::after {
     display: flex;
     width: 100%;
@@ -147,42 +147,53 @@
     align-items: center;
     justify-content: center;
 }
-
 .cross::after {
     content: "X";
 }
-
 .rond::after {
     content: "O";
 }
 
 .case.winning::after {
-    background: var(--black-44);
-    color: var(--green);
+    background: var(--green);
+    color: var(--black-44);
 }
-.player-mark.winning{
+.player-mark.winning, .player-mark.drawn{
     width: 32px;
 }
-.player-mark.winning span{
+.player-mark.winning span,
+.player-mark.drawn span{
     left: 2px;
     background: var(--green);
 }
+
+.player-mark.drawn{
+  background: var(--cyan);
+}
+.player-mark.drawn span::after {
+  content: "#";
+}
+
+.player-mark.drawn span{
+  background: var(--gray);
+  color: var(--cyan);
+}
+
 .stats {
     padding: 10px;
     background: var(--black-44);
     border-radius: 10px;
 }
-
 .stat-number#win {
     color: var(--green);
 }
-
 .stat-number#lose {
     color: var(--gray);
 }
-.stat-number#lie{
+.stat-number#drawn{
     color: var(--violet);
 }
+
 #home {
     flex: 1;
     width: 100%;
@@ -391,6 +402,8 @@
 }
 
 .container>footer {
+    position: relative;
+    transform : translateY(100%);
     background: var(--black-44);
     color: var(--cyan);
     padding: 20px;
@@ -405,6 +418,10 @@
 .container>footer p span {
     display: block;
     font-weight: 700;
+}
+
+.footer-appear{
+  transform: translateY(0%) !important;
 }
 
 .social {
@@ -423,8 +440,27 @@
     color: var(--cyan);
 }
 
-.invisible {
-    display: none;
+.invisible, #home.invisible {
+    /* display: none; */
+    z-index: -3;
+    transition: all 0.3s;
+    -webkit-animation: disappear 0.3s ease-in-out forwards;
+    -o-animation: disappear 0.3s ease-in-out forwards;
+    animation: disappear 3s ease-in-out forwards;
+}
+
+@keyframes disappear{
+    0%{
+        opacity: 1;
+        position: absolute;
+    }
+    50%{
+        position: absolute;
+    }
+    100%{
+        display: none;
+        opacity: 0;
+    }
 }
 
 .recent {
@@ -446,4 +482,3 @@
         scale: 1;
     }
 }
- 
