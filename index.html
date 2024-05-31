@@ -25,7 +25,7 @@
                 <li class="nav-item" id="restart">Recommencer</li>
                 <li class="nav-item">Aide</li>
                 <li class="nav-item">À propos</li>
-                <li class="nav-item">Quitter</li>
+                <li class="nav-item" id="exit-game">Quitter</li>
             </ul>
         </nav>
         <header class="flex-between">
@@ -51,7 +51,7 @@
                     <li>Partie<span class="stat-number" id="p">0</span></li>
                     <li>Gagné<span class="stat-number" id="win">0</span></li>
                     <li>Perdu<span class="stat-number" id="lose">0</span></li>
-                    <li>Nul<span class="stat-number" id="lie">0</span></li>
+                    <li>Nul<span class="stat-number" id="drawn">0</span></li>
                 </ul>
             </footer>
         </div>
@@ -61,7 +61,7 @@
                 <button class="btn-item" id="multiplayer">MultiPlayer</button>
                 <button class="btn-item">Statistiques</button>
                 <button class="btn-item">Options</button>
-                <button class="btn-item">Exit</button>
+                <button class="btn-item" id="exit-app">Exit</button>
             </div>
         </div>
         <footer>
@@ -77,8 +77,7 @@
             </div>
         </footer>
     </div>
-    <script type="module" src="js/index.js"></script>
-    <!-- <script src="js/main.js"></script> -->
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
