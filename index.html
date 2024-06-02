@@ -2,77 +2,78 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Tic-Tac Toe Game</title>
+  <title>Tic-Tac Toe Game</title>
 
-    <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/game.css">
 </head>
 
 <body>
-    <!-- Project -->
-    <div class="container flex-center">
-        <nav class="nav-right flex-center">
-            <ul>
-                <li class="nav-item" id="resume">Continuer</li>
-                <li class="nav-item" id="restart">Recommencer</li>
-                <li class="nav-item">Aide</li>
-                <li class="nav-item">À propos</li>
-                <li class="nav-item" id="exit-game">Quitter</li>
-            </ul>
-        </nav>
-        <header class="flex-between">
-            <div class="title-game">
-                <h1>Tic-Tac Toe Game</h1>
-                <p>C'est cool, c'est fun</p>
-            </div>
-            <div id="toggle-menu">
-                <figure><img src="img/menu_48px.png" alt="menu_48px.png"></figure>
-            </div>
-        </header>
-        <div class="tictac-app flex-column-wrap invisible">
-            <header class="flex-around">
-                <p class="name-player">EMLzmile</p>
-                <span class="player-mark"><span></span></span>
-                <p class="name-player">Zmile IA</p>
-            </header>
-            <main>
-                <section id="board"></section>
-            </main>
-            <footer>
-                <ul class="stats">
-                    <li>Partie<span class="stat-number" id="p">0</span></li>
-                    <li>Gagné<span class="stat-number" id="win">0</span></li>
-                    <li>Perdu<span class="stat-number" id="lose">0</span></li>
-                    <li>Nul<span class="stat-number" id="drawn">0</span></li>
-                </ul>
-            </footer>
-        </div>
-        <div class="tictac-home flex-column-wrap flex-around" id="home">
-            <div class="btns-container flex-around">
-                <button class="btn-item" id="singleplayer">SinglePlayer</button>
-                <button class="btn-item" id="multiplayer">MultiPlayer</button>
-                <button class="btn-item">Statistiques</button>
-                <button class="btn-item">Options</button>
-                <button class="btn-item" id="exit-app">Exit</button>
-            </div>
-        </div>
-        <footer>
-            <div class="ft-game">
-                <p>Tic-Tac-Toe Game by <span>Emmanuel Moolongawi</span></p>
-            </div>
-            <div class="me">
-                <ul class="social">
-                    <li class="circle"><a href="https://www.github.com/emmanuel.moolongawi">GitHub</a></li>
-                    <li class="circle"><a href="https://m.facebook.com/emmanuel.moolongawi">Facebook</a></li>
-                    <li class="circle"><a href="https://m.instagram.com/emmanu.moolongawi">Instagram</a></li>
-                </ul>
-            </div>
-        </footer>
+  <!-- Project -->
+  <div class="container flex-wrap-column">
+    <nav class="nav flex-center">
+      <ul>
+        <li class="nav-item" id="resume">Continuer</li>
+        <li class="nav-item" id="restart">Recommencer</li>
+        <li class="nav-item">Aide</li>
+        <li class="nav-item">À propos</li>
+        <li class="nav-item" id="exit-game">Quitter</li>
+      </ul>
+    </nav>
+    <header class="flex-between">
+      <div class="title-game">
+        <h1>Tic-Tac Toe Game</h1>
+        <p>C'est cool, c'est fun</p>
+      </div>
+      <div id="toggle-menu">
+        <figure><img src="img/menu_48px.png" alt="menu_48px.png"></figure>
+      </div>
+    </header>
+    <div class="tictac-app flex-column-wrap invisible">
+      <header class="flex-around">
+        <p class="name-player">EMLzmile</p>
+        <span class="player-mark"><span></span></span>
+        <p class="name-player">Zmile IA</p>
+      </header>
+      <main>
+        <section id="board"></section>
+      </main>
+      <footer>
+        <ul class="stats">
+          <li>Partie<span class="stat-number" id="p">0</span></li>
+          <li>Gagné<span class="stat-number" id="win">0</span></li>
+          <li>Perdu<span class="stat-number" id="lose">0</span></li>
+          <li>Nul<span class="stat-number" id="drawn">0</span></li>
+        </ul>
+      </footer>
     </div>
-    <script type="module" src="js/main.js"></script>
+    <div class="tictac-home flex-column-wrap flex-around" id="home">
+      <div class="btns-container flex-around">
+        <button class="btn-item" id="singleplayer">SinglePlayer</button>
+        <button class="btn-item" id="multiplayer">MultiPlayer</button>
+        <button class="btn-item">Statistiques</button>
+        <button class="btn-item">Options</button>
+        <button class="btn-item" id="exit-app">Exit</button>
+      </div>
+    </div>
+    <footer class="footer-appear">
+      <div class="ft-game">
+        <p>Tic-Tac-Toe Game by <span>Emmanuel Moolongawi</span></p>
+      </div>
+      <div class="me">
+        <ul class="social">
+          <li class="circle"><a href="https://www.github.com/emmanuel.moolongawi">GitHub</a></li>
+          <li class="circle"><a href="https://m.facebook.com/emmanuel.moolongawi">Facebook</a></li>
+          <li class="circle"><a href="https://m.instagram.com/emmanu.moolongawi">Instagram</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+  <script type="module" src="js/main.js"></script>
 </body>
 
 </html>

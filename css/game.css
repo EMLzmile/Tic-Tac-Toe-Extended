@@ -1,0 +1,133 @@
+.player-mark,
+.stat-number {
+  display: block;
+  font-size: 1.3em;
+}
+
+.player-mark {
+  display: flex;
+  position: relative;
+  align-items: center;
+  width: 52px;
+  height: 32px;
+  background: var(--black);
+  border-radius: 32px;
+  transition: all 0.5s;
+}
+
+.player-mark span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 2px;
+  width: 28px;
+  height: 28px;
+  background: var(--cyan);
+  color: var(--black);
+  border-radius: 50%;
+  transition: all 0.5s;
+}
+
+.player-mark.current-player1 span {
+  left: 20px;
+}
+
+.current-player0 span::after {
+  content: 'O';
+}
+
+.current-player1 span::after {
+  content: 'X';
+}
+
+
+#board {
+  display: grid;
+  height: 250px;
+  margin: 30px auto;
+}
+
+#board.x3{
+  grid-template: repeat(3, 1fr)/repeat(3, 1fr);
+}
+
+#board.x8{
+  grid-template: repeat(8, 1fr)/repeat(8, 1fr);
+}
+
+#board.x10{
+  grid-template: repeat(10, 1fr)/repeat(10, 1fr);
+}
+
+#board.x12{
+  grid-template: repeat(12, 1fr)/repeat(12, 1fr);
+}
+
+#board .case {
+  border: 1px solid var(--cyan-dark);
+}
+
+.case::after {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  color: var(--cyan);
+  align-items: center;
+  justify-content: center;
+}
+
+.cross::after {
+  content: "X";
+}
+
+.rond::after {
+  content: "O";
+}
+
+.case.winning::after {
+  background: var(--green);
+  color: var(--black-44);
+}
+
+.player-mark.winning,
+.player-mark.drawn {
+  width: 32px;
+}
+
+.player-mark.winning span,
+.player-mark.drawn span {
+  left: 2px;
+  background: var(--green);
+}
+
+.player-mark.drawn {
+  background: var(--cyan);
+}
+
+.player-mark.drawn span::after {
+  content: "#";
+}
+
+.player-mark.drawn span {
+  background: var(--gray);
+  color: var(--cyan);
+}
+
+.stats {
+  padding: 10px;
+  background: var(--black-44);
+  border-radius: 10px;
+}
+
+.stat-number#win {
+  color: var(--green);
+}
+
+.stat-number#lose {
+  color: var(--gray);
+}
+
+.stat-number#drawn {
+  color: var(--violet);
+}

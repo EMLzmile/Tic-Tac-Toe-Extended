@@ -1,11 +1,11 @@
-function TicTacToeGame(size) {
+function TicTacToeGame() {
   this.requiredMatches;
   this.difficult;
-  this.board = new Board(this, size);
   this.winner = null;
   this.winnerName;
 
   this.initGame = (mode) => {
+    this.board = new Board(this, mode.size);
     this.player1 = mode.player1;
     this.player2 = mode.player2;
     this.difficult = mode.difficult;
@@ -44,9 +44,9 @@ function TicTacToeGame(size) {
       this.currentPlayer.tour.classList.add(`current-player${this.currentPlayer.index}`);
       if (this.currentPlayer instanceof IAPlayer) {
         let arret = 0;
-        setTimeout(()=>{
-        while (!this.currentPlayer.play() && arret < 1) arret++;
-        this.nextTour();
+        setTimeout(() => {
+          while (!this.currentPlayer.play() && arret < 1) arret++;
+          this.nextTour();
         }, 1500);
         console.log('name : ' + this.currentPlayer.playerName)
       }
@@ -83,6 +83,17 @@ function TicTacToeGame(size) {
       this.winner = null;
     }
     this.initGame(mode);
+  }
+
+  this.exit = () => {
+    this.board.clear();
+    this.player1.clear();
+    this.player2.clear();
+    if (this.winner) {
+      this.winner.classList.remove("winning", "drawn");
+      this.winner = null;
+    }
+    // this = null;
   }
 }
 
@@ -256,6 +267,11 @@ function Board(game, size) {
       cellule.clear();
     }
   }
+
+  this.clear = function clear() {
+    this.reset();
+    this.boardCells.clear();
+  }
 }
 
 function BoardCell(coord, cell) {
@@ -310,7 +326,7 @@ class PlayerMark {
     const surroundPlays = this.checkSurroundingPlays(element);
 
     for (const surround of surroundPlays) {
-      let dist = this.distance(surround[0], surround[1]);
+      let dist = this.distance(surround[0], surround[1]) + 1;
       // console.log(surround[0], surround[1]);
       if (dist >= this.game.requiredMatches) {
         this.win = true;
@@ -528,6 +544,13 @@ class PlayerMark {
     }
   }
 
+  clear = () => {
+    this.playerName = "";
+    this.playerCells.clear();
+    this.win = false;
+    this.playerMarkSymbol = "";
+  }
+
 }
 
 class IAPlayer extends PlayerMark {
@@ -586,8 +609,8 @@ class IAPlayer extends PlayerMark {
       asset = 0;
     const dangers = [[this.#hasard(), this.#hasard()]],
       assets = [[this.#hasard(), this.#hasard()]];
-    
-    
+
+
     cellValues.forEach(cellItem => {
       if (cellItem.danger > danger) {
         danger = cellItem.danger;
