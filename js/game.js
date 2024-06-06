@@ -1,16 +1,22 @@
 function TicTacToeGame() {
   this.requiredMatches;
-  this.difficult;
   this.winner = null;
+  this.moves = [];
   this.winnerName;
+  this.currentMove;
+  
+  let match = 1;
+  let resultW = document.getElementById("win");
+  let resultL = document.getElementById("lose");
 
   this.initGame = (mode) => {
-    this.board = new Board(this, mode.size);
+    this.mode = mode.mode || "PvA";
+    this.board = new Board(this, mode.size || 10);
     this.player1 = mode.player1;
     this.player2 = mode.player2;
-    this.difficult = mode.difficult;
-    this.requiredMatches = mode.match;
+    this.requiredMatches = mode.match || 5;
     this.board.initializeBoard();
+    document.getElementById("match").innerHTML = match;
 
     const who = Math.floor(Math.random() * 11);
 
@@ -19,19 +25,35 @@ function TicTacToeGame() {
     } else {
       this.currentPlayer = this.player2;
     }
-    setTimeout(this.nextTour, 3000);
+    setTimeout(this.nextTour, 4000);
   }
 
   this.nextTour = () => {
     const verf = this.checkForWin();
+    const lastPlay = this.moves[this.moves.length-1];
+    
+    if(this.board.isValidPos(this.currentPlayer.lastMove.coord())) {
+      if(lastPlay)
+        lastPlay.move.boardCellElement.classList.remove("recent")
+      this.moves.push({
+        player: this.currentPlayer,
+        move: this.currentPlayer.lastMove
+      });
+      this.currentPlayer.lastMove.boardCellElement.classList.add("recent");
+    }
+    
+    
+    if (verf == 1) {
+      console.log('ousbeee')
+      this.isWin(this.currentPlayer);
+    } else if (verf == -1) {
+      const result = document.getElementById(`drawn`);
+      result.innerHTML++;
 
-    if (verf == -1) {
       this.winnerName = "Match nul";
       this.winner = this.player1.tour;
       this.winner.classList.add("drawn");
       console.log(this.winnerName)
-    } else if (verf == 1) {
-      this.isWin(this.currentPlayer);
     } else {
       this.currentPlayer.tour.classList.remove(`current-player${this.currentPlayer.index}`);
 
@@ -45,29 +67,34 @@ function TicTacToeGame() {
       if (this.currentPlayer instanceof IAPlayer) {
         let arret = 0;
         setTimeout(() => {
-          while (!this.currentPlayer.play() && arret < 1) arret++;
+          while (!this.currentPlayer.play() && arret < 15) arret++;
           this.nextTour();
-        }, 1500);
-        console.log('name : ' + this.currentPlayer.playerName)
+        }, 1000);
       }
     }
   }
 
   this.isWin = (player) => {
+    let result;
+    if (player.constructor === PlayerMark) {
+      resultW.innerHTML++;
+    } else if(this.mode == "PvA") {
+      resultL.innerHTML++;
+    }
+
     this.winner = player.tour;
     this.winnerName = player.playerName;
-    this.winner.classList.add("winning");
+    this.winner.classList.add("win");
   }
 
   this.checkForWin = () => {
     // this.board.allWorth();
-    if (this.board.isPlain()) {
+    if (this.board.isPlain() && !this.currentPlayer.win) {
       console.log("It is plain");
       return -1;
     } else if (this.currentPlayer.win) {
       return 1;
     } else {
-      // console.log("Continued to play")
       return 0;
     }
   }
@@ -75,13 +102,17 @@ function TicTacToeGame() {
   this.restart = (mode) => {
     this.board.reset();
     this.player1.playerCells.clear();
+    this.player1.tour.classList.remove("current-player0", "current-player1")
     this.player2.playerCells.clear();
     this.currentPlayer.win = false;
 
     if (this.winner) {
-      this.winner.classList.remove("winning", "drawn");
+      this.winner.classList.remove("win", "drawn");
       this.winner = null;
+    } else {
+      match--;
     }
+    match++;
     this.initGame(mode);
   }
 
@@ -90,9 +121,12 @@ function TicTacToeGame() {
     this.player1.clear();
     this.player2.clear();
     if (this.winner) {
-      this.winner.classList.remove("winning", "drawn");
+      this.winner.classList.remove("win", "drawn");
       this.winner = null;
+    } else {
+      resultL.innerHTML++;
     }
+    match++;
     // this = null;
   }
 }
@@ -135,13 +169,74 @@ function Board(game, size) {
           }
 
           div.addEventListener("click", this.eventCellElement);
-        }, 30 * att);
+
+        }, (200 / this.boardSize) * att);
+
         att++;
       }
     }
+
+    setTimeout(() => this.initializeNeighbors(), 3000);
   }
 
   this.eventCellElement = function eventCellElement() {};
+
+  this.initializeNeighbors = function initializeNeighbors() {
+    this.boardCells.forEach(cell => {
+      this.directions.forEach(dir => {
+        let neighborLenght = Math.floor(this.game.requiredMatches / 2);
+
+        const neighborPos = [...cell.coord()];
+
+        let d = '';
+
+        while (this.isValidPos(neighborPos) && neighborLenght > 0) {
+          neighborPos[0] += dir[0];
+          neighborPos[1] += dir[1];
+
+          if (dir[0] == 0 && dir[1]) {
+            d = 'V'
+          } else if (dir[1] == 0 && dir[0]) {
+            d = 'H'
+          } else if (dir[0] == dir[1]) {
+            d = 'OD'
+          } else {
+            d = 'OG'
+          }
+
+          const neighbor = this.getBoardCell(neighborPos);
+
+          if (neighbor) {
+            cell.addNeighbors(d, neighbor);
+          } else {
+            break;
+          }
+
+          neighborLenght--;
+        }
+      });
+    });
+  }
+
+  this.updateNeighbors = function updateNeighbors() {
+    this.boardCells.forEach(cell => {
+      const mark = cell.playerMarkSymbol;
+
+      if (mark)
+        for (const dir in cell.neighbors) {
+          let suite = false;
+          cell.neighbors[dir].forEach(neighbor => {
+            if (mark == neighbor.playerMarkSymbol) {
+              // return el;
+              cell.addNeighbors(dir, ...neighbor.neighbors[dir]);
+              neighbor.addNeighbors(dir, ...cell.neighbors[dir]);
+            }
+
+            suite = true;
+          });
+        }
+    });
+  }
 
   this.getCellElements = function getCellElements(elA, elB = null) {
     let boardValues = this.boardCells.values();
@@ -167,20 +262,19 @@ function Board(game, size) {
       }
     }
 
-    for (let value of boardValues) {
-      const me = value.coord().toString();
+    const value = this.getBoardCell(elA);
 
-      if (me == elA.toString()) {
-        if (value2 != null)
-          return [value.boardCellElement, ...value2];
+    if (value) {
+      if (value2)
+        return [value.boardCellElement, ...value2];
 
-        return [value.boardCellElement];
-      }
+      return [value.boardCellElement];
     }
+
   }
 
   this.getBoardCell = function getBoardCell(el) {
-    if (el instanceof Array) {
+    if (Array.isArray(el)) {
       let cell;
       this.boardCells.values().some((cellItem) => {
         if (el.toString() === cellItem.coord().toString()) {
@@ -188,7 +282,7 @@ function Board(game, size) {
           return cellItem;
         }
       });
-      // console.log(cell);
+
       return cell;
     } else {
       throw new Error("Ne peut pas recevoir autre chose qu'un Array en argument");
@@ -199,44 +293,75 @@ function Board(game, size) {
   this.isValidPos = (cellPos) => {
     const a = cellPos[0],
       b = cellPos[1];
-    if (a >= 0 && b < this.boardSize)
-      if (a < this.boardSize && b > 0) return true;
 
-
-    return false;
+    return (a >= 0 && a < this.boardSize) && (b >= 0 && b < this.boardSize);
   }
 
   this.updateCell = function updateCell(cell, mark) {
+    console.log(cell.coord().toString());
 
-    this.directions.forEach(dir => {
+    // this.directions.forEach(dir => {
 
-      let neighborLenght = Math.floor(this.game.requiredMatches / 2);
+    //   let neighborLenght = Math.floor(this.game.requiredMatches / 2);
 
-      const neighborPos = [...cell.coord()];
+    //   const neighborPos = [...cell.coord()];
+    //   let previousNeighbor = this.getBoardCell(neighborPos);
+    //   let suite = false;
+    //   let value = 1;
 
-      while (this.isValidPos(neighborPos) && neighborLenght > 0) {
+    //   while (this.isValidPos(neighborPos) && neighborLenght > 0) {
 
-        neighborPos[0] += dir[0];
-        neighborPos[1] += dir[1];
+    //     neighborPos[0] += dir[0];
+    //     neighborPos[1] += dir[1];
 
-        const neighbor = this.getBoardCell(neighborPos);
+    //     const neighbor = this.getBoardCell(neighborPos);
 
-        if (neighbor && !neighbor.isMarked()) {
-          neighbor.worth[mark]++;
-        } else {
-          break;
-        }
-        neighborLenght--;
+    //     if (neighbor) {
+    //       if (!neighbor.isMarked()) {
+    //         if (!suite) neighbor.worth[mark] += value;
+    //         else if (neighbor.worth[mark]) neighbor.worth[mark] -= value;
+    //       } else if (previousNeighbor.playerMarkSymbol === mark && neighbor.playerMarkSymbol === mark) {
+    //         // if(mark === previousNeighbor.mark)
+    //         value++;
+    //         neighborLenght++;
+    //       } else {
+    //         suite = true;
+    //         // value = 1;
+    //       }
+    //     } else {
+    //       break;
+    //     }
+    //     previousNeighbor = neighbor;
+    //     neighborLenght--;
+    //     console.log(
+    //       neighborPos.toString(),
+    //       'reste : ' + neighborLenght,
+    //       'worth : ' + neighbor.worth[mark],
+    //       value
+    //     );
+    //   }
+
+    // });
+
+    cell.neighbors.forEach(neighbor => {
+      if (!neighbor.isMarked()) {
+        neighbor.worth[mark] += 1;
+      } else {
+        neighbor.worth[mark] = 0;
       }
-
-    });
+    })
 
   }
 
-  this.update = function update(cell, mark) {
-    this.updateCell(cell, mark);
-    // return [min, max];
-  }
+  // this.update = function update(cell, mark) {
+  //   this.updateCell(cell, mark);
+  //   // Ré-évaluer le score des voisins modifiés
+  //   // Object.values(this.neighbors).forEach(neighbor => {
+  //   //   this.updateCell(neighbor);
+  //   // });
+
+  //   // return [min, max];
+  // }
 
   this.allWorth = function allWorth() {
     this.boardCells.forEach(cell => {
@@ -274,11 +399,17 @@ function Board(game, size) {
   }
 }
 
-function BoardCell(coord, cell) {
+function BoardCell(coord = [-1, -1], cell = document.createElement("div")) {
   this.a = coord[0];
   this.b = coord[1];
   this.boardCellElement = cell;
   this.playerMarkSymbol = null;
+  this.neighbors = {
+    H: [],
+    V: [],
+    OD: [],
+    OG: []
+  };
   this.worth = { rond: 0, cross: 0 };
 
   this.isMarked = () => this.playerMarkSymbol !== null;
@@ -288,12 +419,56 @@ function BoardCell(coord, cell) {
 
     this.boardCellElement.classList.add(mark);
     this.playerMarkSymbol = mark;
+
+    this.update();
     return true;
   }
 
   this.coord = () => [this.a, this.b];
 
   this.isEqual = (other) => this.a === other.a && this.b == other.b;
+
+  this.addNeighbors = function(dir, ...cells) {
+    cells.forEach(cell => {
+      if (0 > this.neighbors[dir].indexOf(cell))
+        this.neighbors[dir].push(cell);
+    });
+    this.neighbors[dir].sort((a, b) => a.a - b.a || a.b - b.b);
+  }
+
+  this.removeNeighbors = function(dir, cell) {
+    this.neighbors[dir] = this.neighbors[dir].filter(el => {
+      if (!cell.isEqual(el)) {
+        return el;
+      }
+    })
+  }
+
+  this.update = function update() {
+    console.log(this.coord());
+    this.worth.rond = 0;
+    this.worth.cross = 0;
+
+    const mark = this.playerMarkSymbol;
+
+    for (const dir in this.neighbors) {
+      let value = 1;
+
+      for (const neighbor of this.neighbors[dir]) {
+        if (!neighbor.isMarked())
+          neighbor.worth[mark] += value;
+        else {
+          if (neighbor.playerMarkSymbol == mark) {
+            value++;
+          } else {
+            neighbor.worth[mark] = 0;
+          }
+        }
+      }
+      // console.log(...this.neighbors[dir].toString());
+    }
+
+  }
 
   this.clear = () => {
     this.boardCellElement.remove();
@@ -304,13 +479,14 @@ function BoardCell(coord, cell) {
 }
 
 class PlayerMark {
-  constructor(game, name = "Player", mark) {
+  constructor(game = new TicTacToeGame(), name = "Player", mark = "rond") {
     this.playerName = name;
     this.playerMarkSymbol = mark;
     this.playerCells = new Set();
     this.index = this.playerMarkSymbol == "rond" ? 0 : 1;
     this.game = game;
     this.win = false;
+    this.lastMove = new BoardCell();
 
     this.tour = document.querySelector(".player-mark");
   }
@@ -319,22 +495,21 @@ class PlayerMark {
 
   registerPlayedCell = (element) => {
     this.playerCells.add(element);
-    this.game.currentCell = element;
+    this.lastMove = element;
 
-    this.game.board.update(element, this.playerMarkSymbol);
+    this.game.board.updateNeighbors(element);
 
     const surroundPlays = this.checkSurroundingPlays(element);
 
     for (const surround of surroundPlays) {
       let dist = this.distance(surround[0], surround[1]) + 1;
-      // console.log(surround[0], surround[1]);
+
       if (dist >= this.game.requiredMatches) {
         this.win = true;
         this.game.board.getCellElements(...surround)
           .forEach(cellule => {
-            cellule.classList.add("winning")
+            cellule.classList.add("win")
           });
-        this.game.nextTour();
         // break;
       }
     }
@@ -464,13 +639,13 @@ class PlayerMark {
     if (elA instanceof BoardCell && elB instanceof BoardCell) {
       a = Math.abs(elA.a - elB.a);
       b = Math.abs(elA.b - elB.b);
-    } else if (elA instanceof BoardCell && elB instanceof Array) {
+    } else if (elA instanceof BoardCell && Array.isArray(elB)) {
       a = Math.abs(elA.a - elB[0]);
       b = Math.abs(elA.b - elB[1]);
-    } else if (elA instanceof Array && elB instanceof BoardCell) {
+    } else if (Array.isArray(elA) && elB instanceof BoardCell) {
       a = Math.abs(elA[0] - elB.a);
       b = Math.abs(elA[0] - elB.b);
-    } else if (elA instanceof Array && elB instanceof Array) {
+    } else if (Array.isArray(elA) && Array.isArray(elB)) {
       a = Math.abs(elA[0] - elB[0]);
       b = Math.abs(elA[1] - elB[1]);
     } else {
@@ -507,27 +682,39 @@ class PlayerMark {
 
   direction = (elA, elB) => {
     let x, y;
-    if (elA instanceof BoardCell && elB instanceof BoardCell) {
-      x = elA.a - elB.a;
-      y = elA.b - elB.b;
-    } else if (elA instanceof BoardCell && elB instanceof Array) {
-      x = elA.a - elB[0];
-      y = elA.b - elB[1];
-    } else if (elA instanceof Array && elB instanceof BoardCell) {
-      x = elA[0] - elB.a;
-      y = elA[0] - elB.b;
-    } else if (elA instanceof Array && elB instanceof Array) {
-      x = elA[0] - elB[0];
-      y = elA[1] - elB[1];
-    } else {
-      console.error(
-        `Erreur : Mauvaises valeurs fournies\n
-        Méthode direction\n
-        Class PlayerMark`
-      );
-      x = 0;
-      y = 0;
+    
+    if (elA instanceof BoardCell) {
+      elA = elA.coord();
+    } else if (!Array.isArray(elA)) {
+      throw new error(`Mauvaises valeurs fournies`);
     }
+    
+    if (elB instanceof BoardCell) {
+      elB = elB.coord();
+    } else if (!Array.isArray(elB)) {
+      throw new error(`Mauvaises valeurs fournies`);
+    }
+    
+    x = elA[0] - elB[0];
+    y = elA[1] - elB[1];
+    
+    // if (elA instanceof BoardCell && elB instanceof BoardCell) {
+    //   x = elA.a - elB.a;
+    //   y = elA.b - elB.b;
+    // } else if (elA instanceof BoardCell && Array.isArray(elB)) {
+    //   x = elA.a - elB[0];
+    //   y = elA.b - elB[1];
+    // } else if (Array.isArray(elA) && elB instanceof BoardCell) {
+    //   x = elA[0] - elB.a;
+    //   y = elA[0] - elB.b;
+    // } else if (Array.isArray(elA) && Array.isArray(elB)) {
+    //   x = elA[0] - elB[0];
+    //   y = elA[1] - elB[1];
+    // } else {
+    //   throw new error(`Mauvaises valeurs fournies`);
+    //   x = 0;
+    //   y = 0;
+    // }
 
     if (x == 0 && (y > 0 || y < 0)) {
       return 'V';
@@ -548,23 +735,22 @@ class PlayerMark {
     this.playerName = "";
     this.playerCells.clear();
     this.win = false;
+    this.tour.classList.remove(`current-player${this.index}`)
     this.playerMarkSymbol = "";
   }
 
 }
 
 class IAPlayer extends PlayerMark {
-  constructor(game, mark) {
+  constructor(game, mark, difficult = "normal") {
     super(game, "Zmile IA", mark);
-    this.strategies = [
-      this.defensiveStrategy,
-      this.offensiveStrategy
-    ];
+    this.level = { easy: -1, normal: 0, hard: 1 } [difficult.toLowerCase()];
+    console.log(this.level)
   }
 
   play() {
     // Choisir une stratégie en fonction du niveau
-    // let strategy = this.strategies[game.difficult];
+    // let strategy = this.strategies[this.level];
 
     // Appliquer la stratégie
     // let bestMove = strategy.call(this);
@@ -588,12 +774,10 @@ class IAPlayer extends PlayerMark {
         cellule.asset = cell.worth[this.mark] || 0;
         cellule.danger = cell.worth[dangerMark] || 0;
         cellule.cellPos = cell.coord();
-        // console.log(cell.a, cell.b);
+
         return cellule;
       }
     });
-
-    // console.log(cellules);
 
     let bestMove = this.tactique(cellules);
     console.log(bestMove.coord())
@@ -601,7 +785,7 @@ class IAPlayer extends PlayerMark {
     return super.play(bestMove);
   }
 
-  #hasard = () => Math.floor(Math.random() * 8);
+  #hasard = () => Math.floor(Math.random() * this.game.requiredMatches);
 
   tactique = (cellValues = []) => {
     let bestMove;
@@ -627,10 +811,10 @@ class IAPlayer extends PlayerMark {
       }
     });
 
-    if (danger >= asset || danger + 2 >= this.game.requiredMatches) {
-      bestMove = this.checkMoveToPlays(dangers);
-    } else if (danger < asset || asset + 2 >= this.game.requiredMatches) {
+    if (danger < asset || asset + 2 >= this.game.requiredMatches) {
       bestMove = this.checkMoveToPlays(assets);
+    } else if (danger >= asset || danger >= this.game.requiredMatches - 2) {
+      bestMove = this.checkMoveToPlays(dangers);
     } else {
       bestMove = this.checkMoveToPlays(dangers);
     }
@@ -647,7 +831,7 @@ class IAPlayer extends PlayerMark {
     if (availableCells.length == 1)
       return bestMove;
 
-    let bestElements = this.#bestDirection(availableCells)
+    let bestElements = this.#bestDirection(availableCells);
 
     for (let cellPos of bestElements) {
       let newFutur = this.futurDirect(cellPos);

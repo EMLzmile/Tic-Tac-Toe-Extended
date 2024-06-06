@@ -1,83 +1,9 @@
 @import url('base.css');
 
-.container {
-  overflow: hidden;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(45deg, var(--violet-dark), var(--violet));
-}
-
-.container>* {
-  width: 100%;
-  background: var(--black-44);
-  color: var(--cyan);
-  padding: 20px;
-  text-align: center;
-}
-
-.container>nav {
-  z-index: 2;
-  position: absolute;
-  top: -100%;
-  height: 100%;
-  background: var(--black-88);
-  font-size: 24px;
-  font-weight: 700;
-  transition: all 0.3s ease-in-out;
-}
-
-.nav ul {
-  flex-flow: column wrap;
-  justify-content: space-around;
-  height: 60%;
-  /* background: #333; */
-  color: var(--cyan);
-  padding: 20px;
-}
-
-.nav-appear {
-  -webkit-transform: translateY(100%);
-  -moz-transform: translateY(100%);
-  -ms-transform: translateY(100%);
-  -o-transform: translateY(100%);
-  transform: translateY(100%);
-  overflow: hidden;
-}
-
-.container>header {
-  z-index: 3;
-  position: relative;
-  transform: translateY(-100%);
-  padding: 10px;
-  border-bottom: 2px solid var(--cyan);
-  transition: all 3.6s ease-in-out;
-}
-
-.header-appear {
-  transform: translateY(0%) !important;
-  transition: all 0.6s ease-in-out;
-}
-
-.title-game {
-  font-size: 14px;
-}
-
-.title-game h1 {
-  font-size: 28px;
-}
-
-#toggle-menu {
-  padding: 10px;
-}
-
-#toggle-menu img {
-  width: 24px;
-}
-
+/* TIC TAC APP STYLE */
 .tictac-app,
 .tictac-home {
+  z-index: 1;
   width: calc(100% - 10px);
   max-width: 600px;
   background: var(--violet-dark);
@@ -94,6 +20,12 @@
   line-height: 24px;
 }
 
+.tictac-app li{
+  flex-direction: column;
+}
+
+/* HOME STYLE */
+
 #home {
   flex: 1;
   width: 100%;
@@ -103,7 +35,7 @@
     linear-gradient(135deg, transparent 46%, var(--cyan-dark) 47%, transparent 48%),
     linear-gradient(45deg, var(--gray) 74%, var(--cyan-dark) 75%, var(--gray) 76%);
   padding: 0;
-  transition: all 0.2s;
+  /* transition: all 0.8s; */
   -webkit-animation: blink 4s linear infinite;
   -o-animation: blink 4s linear infinite;
   animation: blink 4s linear infinite;
@@ -279,7 +211,7 @@
   padding: 30px;
 }
 
-.btns-container .btn-item {
+#home .btns-container .btn-item {
   min-width: 50%;
   width: 200px;
   max-width: 90%;
@@ -296,47 +228,104 @@
   border-right: 5px solid var(--black-44);
 }
 
-.btns-container .btn-item:active {
+#home .btns-container .btn-item:active {
   border: 0;
   margin: 15px 10px 10px 15px;
 }
 
-.container>footer {
+/* ABOUT CONTAINER STYLE */
+
+.about-container{
+  /* z-index: -1; */
+  position: absolute;
+  /* display: none; */
+  background: none;
+  padding: 0;
+  min-height: 100%;
+}
+
+.about-container>header {
   position: fixed;
-  z-index: 3;
-  /* bottom: -100%; */
+  top: 0%;
   transform: translateY(-100%);
+  padding: 10px;
+  border-bottom: 2px solid var(--cyan);
+  transition: all 1.6s ease-in-out;
+}
+
+.title-game {
+  font-size: 14px;
+}
+
+.title-game h1 {
+  font-size: 28px;
+}
+
+#toggle-menu {
+  padding: 10px;
+}
+
+#toggle-menu img {
+  width: 24px;
+}
+
+.about-container>nav {
+  position: fixed;
+  flex: 1 0 auto;
+  top: -100%;
+  height: 100%;
   background: var(--black-88);
-  color: var(--cyan);
-  padding: 20px;
-  border-top: 2px solid var(--cyan);
-  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
   transition: all 0.3s ease-in-out;
 }
 
-.container>footer p {
+.nav ul {
+  flex-flow: column wrap;
+  width: 100%;
+  min-height: 60%;
+  color: var(--cyan);
+}
+
+.nav ul li{
+  flex: 1 1 auto;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  padding: 10px;
+}
+
+.nav li img{
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+}
+
+.about-container>footer {
+  position: fixed;
+  bottom: 0%;
+  transform: translateY(100%);
+  background: var(--black-88);
+  padding: 0 20px 20px;
+  border-top: 2px solid var(--cyan);
+  transition: all 0.3s ease-in-out;
+}
+
+.about-container>footer p {
   line-height: 24px;
 }
 
-.container>footer p span {
+.about-container>footer p span {
   display: block;
   font-weight: 700;
 }
 
-.footer-appear {
-  /* bottom: 0 !important; */
-  transform: translateY(100%) !important;
-}
-
 .social {
+  flex: 1 0 0;
   background: var(--violet-dark);
   margin-top: 10px;
   padding: 10px;
   border-radius: 20px;
-}
-
-.social {
-  flex: 1 0 0;
 }
 
 .social a {
@@ -344,12 +333,34 @@
   color: var(--cyan);
 }
 
+.social img{
+  width: 24px
+}
+
+.nav-appear, .header-appear, .footer-appear{
+  /* z-index: 2; */
+}
+
+.nav-appear {
+  transform: translateY(100%);
+}
+
+.header-appear {
+  z-index: 2;
+  transform: translateY(0%) !important;
+}
+
+.footer-appear {
+  transform: translateY(0%) !important;
+}
+
+/* OTHERS STYLES */
+
 .invisible,
 #home.invisible {
-  /* display: none; */
   z-index: -3;
-  transition: all 0.3s;
-  animation: disappear 1s ease-in-out forwards;
+  /* transition: all 0.3s; */
+  animation: disappear 0.3s ease-in-out forwards;
 }
 
 @keyframes disappear {
@@ -365,15 +376,11 @@
   }
 }
 
-.recent {
-  filter: drop-shadow(0px 0px 4px white);
-}
-
 .game-appear {
-  opacity: 0;
-  -webkit-animation: gameAppear 0.5s ease-in-out forwards;
-  -o-animation: gameAppear 0.5s ease-in-out forwards;
-  animation: gameAppear 0.5s ease-in-out forwards;
+  transition: all 0.3s;
+  -webkit-animation: gameAppear 0.5s ease-in-out ;
+  -o-animation: gameAppear 0.5s ease-in-out ;
+  animation: gameAppear 4s ease-in-out ;
 }
 
 @keyframes gameAppear {
@@ -381,9 +388,50 @@
     opacity: 0;
     scale: 3;
   }
-
+  /* 66%{
+    scale: 1;
+  } */
+  83%{
+    scale: 0.9;
+  }
   to {
     opacity: 1;
     scale: 1;
   }
+}
+
+.popup{
+  position: absolute;
+  top: calc((100vh - min(500px, 60%)) / 2);
+  left: 0;
+  margin-left: calc((100vw - min(500px, 90%)) / 2);
+  z-index: 10;
+  width: 500px;
+  height: 500px;
+  max-width: 90%;
+  max-height: 60%;
+  background: radial-gradient(var(--cyan-dark), var(--gray), var(--cyan-dark), var(--gray-dark));
+  color: var(--violet);
+  border-radius: 10px;
+  -webkit-animation: popup-appear 0.3s ease-in-out    forwards;
+  -o-animation: popup-appear 0.3s ease-in-out    forwards;
+  animation: popup-appear 3s cubic-bezier(1, 1.5, 0.8, 0.81)    forwards;
+}
+
+@-webkit-keyframes popup-appear {
+  from { scale: 0; }
+  to { scale: 1; }
+}
+@-o-keyframes popup-appear {
+  from { scale: 0; }
+  to { scale: 1; }
+}
+@keyframes popup-appear {
+  from { scale: 0; }
+  to { scale: 1; }
+}
+.form-popup{
+  width: 100%;
+  height: 100%;
+  padding: 20px;
 }
