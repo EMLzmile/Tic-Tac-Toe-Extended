@@ -5,8 +5,9 @@
   --black: #000;
   --black-44: #0004;
   --black-88: #0008;
-  --gray: #a3181c;
-  --gray-44: #a3181c44;
+  --white: #f7f5f1;
+  --blue: #2e2680;
+  --blue-dark: #19135e;
   --gray-88: #a3181c88;
   --gray-dark: #83080c;
   --gray-dark-44: #44559344;
@@ -31,7 +32,6 @@ body {
 
 ul {
   display: flex;
-  /* align-items: center; */
   justify-content: space-around;
   list-style: none;
 }
@@ -71,7 +71,7 @@ li img {
   overflow: hidden;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(45deg, var(--violet-dark), var(--violet));
+  background: linear-gradient(45deg, var(--violet-dark), var(--blue-dark));
   color: var(--cyan);
 }
 
@@ -84,4 +84,32 @@ li img {
 }
 .about-container>*{
   z-index: 1;
+}
+
+.popup{
+  z-index: 9999;
+  position: fixed;
+  top: calc((100vh - min(500px, 60%)) / 2);
+  margin: auto;
+  border: 1px solid var(--black);
+  box-shadow: 0 0 10px var(--black-44);
+}
+
+.popup label{
+  display: block;
+  margin-bottom: 10px;
+}
+.popup input, .popup select{
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.popup button {
+  padding: 10px 20px;
+  width: 45%;
+  color: var(--cyan);
+  background: var(--violet-light);
+  border: none;
+  border-radius: 5px;
+  text-align: center;
 }

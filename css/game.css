@@ -29,19 +29,19 @@
   transition: all 0.5s;
 }
 
-.player-mark.current-player0,
-.player-mark.current-player1{
+.player-mark.current-player1,
+.player-mark.current-player2{
   width: 52px;
 }
-.player-mark.current-player1 span {
+.player-mark.current-player2 span {
   left: 20px;
 }
 
-.current-player0 span::after {
+.player-rond span::after {
   content: 'O';
 }
 
-.current-player1 span::after {
+.player-cross span::after {
   content: 'X';
 }
 
@@ -59,6 +59,11 @@
 #board.x3{
   font-size: 3em;
   grid-template: repeat(3, 1fr)/repeat(3, 1fr);
+}
+
+#board.x6{
+  font-size: 2em;
+  grid-template: repeat(6, 1fr)/repeat(6, 1fr);
 }
 
 #board.x8{

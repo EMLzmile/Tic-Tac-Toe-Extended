@@ -10,7 +10,7 @@ function TicTacToeGame() {
   let resultL = document.getElementById("lose");
 
   this.initGame = (mode) => {
-    this.mode = mode.mode || "PvA";
+    this.mode = mode.mode || "pva";
     this.board = new Board(this, mode.size || 10);
     this.player1 = mode.player1;
     this.player2 = mode.player2;
@@ -55,7 +55,7 @@ function TicTacToeGame() {
       this.winner.classList.add("drawn");
       console.log(this.winnerName)
     } else {
-      this.currentPlayer.tour.classList.remove(`current-player${this.currentPlayer.index}`);
+      this.currentPlayer.tour.classList.remove(`current-player${this.currentPlayer.index}`, `player-${this.currentPlayer.playerMarkSymbol}`);
 
       if (this.currentPlayer.isEqual(this.player2)) {
         this.currentPlayer = this.player1;
@@ -64,7 +64,8 @@ function TicTacToeGame() {
       }
 
       this.currentPlayer.tour.classList.add(`current-player${this.currentPlayer.index}`);
-      if (this.currentPlayer instanceof IAPlayer) {
+      this.currentPlayer.tour.classList.add(`player-${this.currentPlayer.playerMarkSymbol}`);
+     if (this.currentPlayer instanceof IAPlayer) {
         let arret = 0;
         setTimeout(() => {
           while (!this.currentPlayer.play() && arret < 15) arret++;
@@ -78,7 +79,7 @@ function TicTacToeGame() {
     let result;
     if (player.constructor === PlayerMark) {
       resultW.innerHTML++;
-    } else if(this.mode == "PvA") {
+    } else if(this.mode == "pva") {
       resultL.innerHTML++;
     }
 
@@ -102,7 +103,7 @@ function TicTacToeGame() {
   this.restart = (mode) => {
     this.board.reset();
     this.player1.playerCells.clear();
-    this.player1.tour.classList.remove("current-player0", "current-player1")
+    this.player1.tour.classList.remove("current-player1", "current-player2", "player-rond", "player-cross");
     this.player2.playerCells.clear();
     this.currentPlayer.win = false;
 
@@ -146,6 +147,7 @@ function Board(game, size) {
 
   this.initializeBoard = function initializeBoard() {
     let att = 0;
+    
     for (let j = this.boardSize - 1; j >= 0; j--) {
       for (let i = 0; i < this.boardSize; i++) {
         setTimeout(() => {
@@ -479,11 +481,15 @@ function BoardCell(coord = [-1, -1], cell = document.createElement("div")) {
 }
 
 class PlayerMark {
+  static indx = 0;
+
   constructor(game = new TicTacToeGame(), name = "Player", mark = "rond") {
+    PlayerMark.indx++;
+    PlayerMark.indx = PlayerMark.indx > 2 ? 1 : PlayerMark.indx;
     this.playerName = name;
     this.playerMarkSymbol = mark;
     this.playerCells = new Set();
-    this.index = this.playerMarkSymbol == "rond" ? 0 : 1;
+    this.index = PlayerMark.indx;// this.playerMarkSymbol == "rond" ? 1 : 2;
     this.game = game;
     this.win = false;
     this.lastMove = new BoardCell();
@@ -735,7 +741,7 @@ class PlayerMark {
     this.playerName = "";
     this.playerCells.clear();
     this.win = false;
-    this.tour.classList.remove(`current-player${this.index}`)
+    this.tour.classList.remove(`current-player${this.index}`, `player-${this.playerMarkSymbol}`)
     this.playerMarkSymbol = "";
   }
 
@@ -743,7 +749,7 @@ class PlayerMark {
 
 class IAPlayer extends PlayerMark {
   constructor(game, mark, difficult = "normal") {
-    super(game, "Zmile IA", mark);
+    super(game, "Zmile AI", mark);
     this.level = { easy: -1, normal: 0, hard: 1 } [difficult.toLowerCase()];
     console.log(this.level)
   }
