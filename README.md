@@ -1,5 +1,7 @@
 # Tic-Tac-Toe-Extended
 
+#Sorry it doesn't work for a moment 
+
 ## Description
 Tic-Tac-Toe Extended is a web-based game that extends the classic Tic-Tac-Toe with additional features and gameplay options. It offers both single-player mode against an AI opponent and multiplayer mode for playing against friends.
 
